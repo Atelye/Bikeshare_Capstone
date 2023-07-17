@@ -83,8 +83,15 @@ yearly_data <-yearly_data %>%
                                  hour == "23" ~ "Night")
   )
 
+#create column for better 12 hour clock
+
 
 #clean data frame
 yearly_data <- na.omit(yearly_data) #remove NA values
 yearly_data <- distinct(yearly_data) #remove duplicates
 yearly_data <- yearly_data[!(yearly_data$ride_length <=0),] #remove 0 or negative ride_length
+yearly_data <- yearly_data %>% 
+  select (-c(ride_id, start_station_id, end_station_id, start_lat, start_lng, end_lat, end_lng)) #remove unnecessary columns
+
+#export data for tableau visualization
+fwrite(yearly_data,"Csv_Data/yearly_data.csv")
