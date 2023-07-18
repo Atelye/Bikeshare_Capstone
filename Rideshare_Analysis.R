@@ -83,9 +83,6 @@ yearly_data <-yearly_data %>%
                                  hour == "23" ~ "Night")
   )
 
-#create column for better 12 hour clock
-
-
 #clean data frame
 yearly_data <- na.omit(yearly_data) #remove NA values
 yearly_data <- distinct(yearly_data) #remove duplicates
