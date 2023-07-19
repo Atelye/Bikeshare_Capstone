@@ -90,5 +90,60 @@ yearly_data <- yearly_data[!(yearly_data$ride_length <=0),] #remove 0 or negativ
 yearly_data <- yearly_data %>% 
   select (-c(ride_id, start_station_id, end_station_id, start_lat, start_lng, end_lat, end_lng)) #remove unnecessary columns
 
+#numeric conversion
+yearly_data$ride_length <- as.numeric(as.character(yearly_data$ride_length))
+is.numeric(yearly_data$ride_length)
+
+#analysis
+#average ride length
+mean(ride_length)
+
+#average ride length of each member type
+yearly_data %>% 
+  group_by(member_casual) %>% 
+  summarise(mean(ride_length))
+
+#ridership by day of the week
+yearly_data %>%
+  count(day_of_week)
+
+#ridership by day of the week of each member type
+yearly_data %>%
+  group_by(day_of_week) %>%
+  count(member_casual)
+
+#ridership by time of day
+yearly_data %>%
+  count(time_of_day)
+
+#ridership by month
+yearly_data %>%
+  count(month)
+
+#ridership by time of day of each member type
+yearly_data %>%
+  group_by(time_of_day) %>%
+  count(member_casual)
+
+#top start station name
+yearly_data %>%
+  count(start_station_name) %>%
+  arrange(-n)
+
+#top start station name of each member type
+yearly_data %>% group_by(member_casual) %>%
+  count(start_station_name) %>%
+  arrange(-n)
+
+#top end station name
+yearly_data %>%
+  count(end_station_name) %>%
+  arrange(-n)
+
+#top end station name of each member type
+yearly_data %>% group_by(member_casual) %>%
+  count(end_station_name) %>%
+  arrange(-n)
+
 #export data for tableau visualization
 fwrite(yearly_data,"Csv_Data/yearly_data.csv")
